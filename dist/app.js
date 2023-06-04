@@ -35,20 +35,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { fetchData } from "./fetch.js";
+import normalizarTransacao from "./normalizarTransacao.js";
 function handleData() {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
+        var data, transacoes;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetchData("https://api.origamid.dev/json/transacoes.json")];
+                case 0: return [4 /*yield*/, fetchData("https://api.origamid.dev/json/transacoes.json?")];
                 case 1:
                     data = _a.sent();
-                    if (data) {
-                        data.forEach(function (item) {
-                            console.log(item.Status);
-                        });
-                    }
-                    console.log("data", data);
+                    if (!data)
+                        return [2 /*return*/];
+                    transacoes = data.map(normalizarTransacao);
+                    console.log(transacoes);
                     return [2 /*return*/];
             }
         });

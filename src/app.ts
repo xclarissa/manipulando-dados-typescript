@@ -1,17 +1,17 @@
 import { fetchData } from "./fetch.js";
-import { ITransacoes } from "./types";
+import normalizarTransacao from "./normalizarTransacao.js";
+import { ITransacaoInc } from "./types";
 
 async function handleData() {
-  const data = await fetchData<ITransacoes[]>(
-    "https://api.origamid.dev/json/transacoes.json"
+  const data = await fetchData<ITransacaoInc[]>(
+    "https://api.origamid.dev/json/transacoes.json?"
   );
 
-  if (data) {
-    data.forEach((item: ITransacoes) => {
-     console.log( item.Status)
-    });
-  }
-  console.log("data", data);
+  if(!data) return;
+
+  const transacoes = data.map(normalizarTransacao)
+  console.log(transacoes);
+  
 }
 
 handleData();
