@@ -19,7 +19,7 @@ export interface ITransacaoInc {
 export interface ITransacao {
   status: TransacaoStatus;
   id: number;
-  data: string;
+  data: Date;
   nome: string;
   formaPagamento: TransacaoPagamento;
   email: string;

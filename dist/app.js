@@ -34,10 +34,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import estatisticas from "./estatisticas.js";
 import { fetchData } from "./fetch.js";
 import normalizarTransacao from "./normalizarTransacao.js";
 function handleData() {
     return __awaiter(this, void 0, void 0, function () {
+        function preencherEstatisticas(transacoes) {
+            var data = estatisticas(transacoes);
+            var totalElement = document.querySelector("#total span");
+            if (totalElement) {
+                totalElement.innerText = String("R$ ".concat(data.toLocaleString("PT-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                })));
+            }
+            console.log(transacoes);
+        }
+        function preencherTabela(transacoes) {
+            var tabela = document.querySelector("#transacoes tbody");
+            if (!tabela)
+                return;
+            transacoes.forEach(function (transacao) {
+                tabela.innerHTML += "\n        <tr>\n          <td>".concat(transacao.nome, "</td>\n          <td>").concat(transacao.email, "</td>\n          <td> R$").concat(transacao.moeda, "</td>\n          <td>").concat(transacao.formaPagamento, "</td>\n          <td>").concat(transacao.status, "</td>\n          <td>").concat(transacao.data.toLocaleDateString(), "</td>\n        </tr>\n      ");
+            });
+        }
         var data, transacoes;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -47,7 +67,8 @@ function handleData() {
                     if (!data)
                         return [2 /*return*/];
                     transacoes = data.map(normalizarTransacao);
-                    console.log(transacoes);
+                    preencherTabela(transacoes);
+                    preencherEstatisticas(transacoes);
                     return [2 /*return*/];
             }
         });
