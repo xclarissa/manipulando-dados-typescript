@@ -27,3 +27,7 @@ export interface ITransacao {
   valor: number | null;
   clienteNovo: boolean;
 }
+
+export interface CountList {
+  [key: string]: number;
+}

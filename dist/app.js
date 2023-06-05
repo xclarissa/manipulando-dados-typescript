@@ -34,22 +34,61 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import estatisticas from "./estatisticas.js";
+import Estatiscas from "./estatisticas.js";
 import { fetchData } from "./fetch.js";
 import normalizarTransacao from "./normalizarTransacao.js";
 function handleData() {
     return __awaiter(this, void 0, void 0, function () {
+        function preencherLista(lista, containerId) {
+            var containerElement = document.getElementById(containerId);
+            if (containerElement) {
+                Object.keys(lista).forEach(function (key) {
+                    containerElement.innerHTML += "<p>".concat(key, ": ").concat(lista[key], "</p>");
+                });
+            }
+        }
+        // com classe
         function preencherEstatisticas(transacoes) {
-            var data = estatisticas(transacoes);
+            var data = new Estatiscas(transacoes);
+            preencherLista(data.pagamento, "pagamento");
+            preencherLista(data.status, "status");
             var totalElement = document.querySelector("#total span");
             if (totalElement) {
-                totalElement.innerText = String("R$ ".concat(data.toLocaleString("PT-BR", {
+                totalElement.innerText = data.total.toLocaleString("pt-BR", {
                     style: "currency",
                     currency: "BRL",
-                })));
+                });
             }
-            console.log(transacoes);
+            var diaElement = document.querySelector("#dia span");
+            if (diaElement) {
+                diaElement.innerText = data.melhorDia[0];
+            }
         }
+        // function preencherEstatisticas(transacoes: ITransacao[]): void {
+        //   const data = calcularEstatisticas(transacoes);
+        //   const status = data.status.map(status => status)
+        //   preencherLista(data.pagamento, 'pagamento')
+        //   preencherLista(status, 'status')
+        //   //  Argument of type 'TransacaoStatus[]' is not assignable to parameter of type 'CountList'.
+        //   // Index signature for type 'string' is missing in type 'TransacaoStatus[]'.
+        //   const pagamentoElement = document.getElementById("pagamento");
+        //   if (pagamentoElement) {
+        //     Object.keys(data.pagamento).forEach((key) => {
+        //       pagamentoElement.innerHTML += `
+        //         <p>${key}: ${data.pagamento[key]}</p>
+        //       `;
+        //     });
+        //   }
+        //   const totalElement = document.querySelector<HTMLElement>("#total span");
+        //   if (totalElement) {
+        //     totalElement.innerText = String(
+        //       `R$ ${data.total.toLocaleString("PT-BR", {
+        //         style: "currency",
+        //         currency: "BRL",
+        //       })}`
+        //     );
+        //   }
+        // }
         function preencherTabela(transacoes) {
             var tabela = document.querySelector("#transacoes tbody");
             if (!tabela)
